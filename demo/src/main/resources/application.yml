@@ -16,3 +16,6 @@ spring:
     defer-datasource-initialization: true
     hibernate:
       ddl-auto: create-drop
+server:
+  error:
+    include-stacktrace: on_param

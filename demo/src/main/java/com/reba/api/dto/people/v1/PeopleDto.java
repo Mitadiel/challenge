@@ -1,8 +1,10 @@
 package com.reba.api.dto.people.v1;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.reba.api.domain.enums.DocumentType;
+import com.reba.api.dto.relation.v1.RelationDto;
 
 import lombok.Data;
 
@@ -16,4 +18,5 @@ public class PeopleDto {
     private String Email;
     private String lastName;
     private String Country;
+    private List<RelationDto> relations;
 }

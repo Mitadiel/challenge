@@ -61,6 +61,12 @@ public class PeopleController {
 		return new ResponseEntity<>(peopleService.update(id,peopleRequest),HttpStatus.ACCEPTED);
 	}
 
+    @PostMapping("/{id1}/father/{id2}")
+    public ResponseEntity<String> createRelation(@PathVariable("id1") Long id1, @PathVariable("id2") Long id2){
+        return peopleService.createRelation(id1,id2);
+    }
+
+
 }
 
  

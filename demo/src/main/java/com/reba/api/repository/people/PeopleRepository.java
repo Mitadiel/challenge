@@ -1,4 +1,4 @@
-package com.reba.api.repository;
+package com.reba.api.repository.people;
 
 import java.util.Optional;
 
