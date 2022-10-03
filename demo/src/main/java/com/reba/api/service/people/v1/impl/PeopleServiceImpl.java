@@ -3,8 +3,12 @@ package com.reba.api.service.people.v1.impl;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -17,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.reba.api.domain.People;
 import com.reba.api.domain.Relation;
 import com.reba.api.domain.enums.RelationType;
+import com.reba.api.dto.people.v1.PeopleStat;
 import com.reba.api.dto.people.v1.PeopleDto;
 import com.reba.api.dto.people.v1.PeopleMapper;
 import com.reba.api.dto.people.v1.PeopleRequest;
@@ -148,6 +153,32 @@ public class PeopleServiceImpl implements PeopleService {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "People with id " + id + " not found");
         }
         return optionalPeople;
+    }
+
+    @Override
+    public List<PeopleStat> getStatsFromPeople() {
+        
+        //query armada para traer datos exactos de forma optioma
+        //error al mapear
+        //return this.peopleRepository.getStatsFromCountries();
+
+        List<People> peopleList = this.peopleRepository.findAll();
+        List<PeopleStat> peopleStatList = new ArrayList<>();
+        Integer size = peopleList.size();
+            Function<People, String> classificationFunction = student -> student.getCountry();
+
+            Map<String, Long> groupedStudents = peopleList.stream().collect(Collectors.groupingBy(classificationFunction, Collectors.counting()));
+            
+            for (Map.Entry<String, Long> entry : groupedStudents.entrySet()) {
+                PeopleStat people = new PeopleStat();
+                people.setCountry(entry.getKey());
+                Long data = entry.getValue()*100/size;
+                people.setPercentage(data.toString());
+                peopleStatList.add(people);
+            }
+
+
+        return peopleStatList;
     }
 
 }
