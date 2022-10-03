@@ -14,11 +14,14 @@ public interface RelationMapper{
     Mappers.getMapper(RelationMapper.class);
 
     @Mapping(target = "idRelation", ignore = true)
+    @Mapping(target = "peoples", ignore = true)
     Relation toModel(RelationRequest relationRequest);
     
     @Mapping(target = "idRelation", ignore = true)
+    @Mapping(target = "peoples", ignore = true)
     Relation toModelFromDto(RelationDto relationDto);
 
     @Mapping(target = "idRelation", ignore = true)
+    @Mapping(target = "peoples", ignore = true)
     void updateModel(RelationRequest relationRequest, @MappingTarget Relation relation);
 }

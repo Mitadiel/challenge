@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import com.reba.api.dto.people.v1.PeopleStat;
 import com.reba.api.dto.people.v1.PeopleDto;
 import com.reba.api.dto.people.v1.PeopleRequest;
 
@@ -14,6 +15,7 @@ public interface PeopleService {
     void delete(Long id);
     PeopleDto update(Long id, PeopleRequest peopleRequest);
     ResponseEntity<String> createRelation(Long id1, Long id2);
+    List<PeopleStat> getStatsFromPeople();
     
 }
 

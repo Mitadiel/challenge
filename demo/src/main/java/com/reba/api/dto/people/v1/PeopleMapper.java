@@ -14,10 +14,12 @@ public interface PeopleMapper{
     Mappers.getMapper(PeopleMapper.class);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "relations", ignore = true)
     People toModel(PeopleRequest peopleRequest);
 
     PeopleDto toDto(People people);
     
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "relations", ignore = true)
     void updateModel(PeopleRequest peopleRequest, @MappingTarget People people);
 }

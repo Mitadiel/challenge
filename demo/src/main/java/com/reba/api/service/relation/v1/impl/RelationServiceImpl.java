@@ -24,14 +24,18 @@ public class RelationServiceImpl implements RelationService{
     public ResponseEntity<String> getRelationType(Long id1, Long id2) {
         
         PeopleDto PeopleDtoId1 = peopleService.findById(id1);
-        PeopleDto PeopleDtoId2 = peopleService.findById(id1);
+        PeopleDto PeopleDtoId2 = peopleService.findById(id2);
         String rsp = "";
         rsp = getTypeOfRelation(PeopleDtoId1,id2);
-        if (rsp == ""){
-            rsp = getTypeOfRelation(PeopleDtoId2,id1);
+        if (rsp != ""){
+           return ResponseEntity.ok(id1 + "is the '"+ rsp + "' of "+id2);
         }
+        rsp = getTypeOfRelation(PeopleDtoId2, id1);
+        if (rsp != ""){
+            return ResponseEntity.ok(id2 + " is the '"+ rsp + "' of "+id1);
+         }
         
-         return (rsp == "") ?  ResponseEntity.ok("Not found relation") : ResponseEntity.ok(rsp);
+         return ResponseEntity.ok("Not found relation");
     }
 
 

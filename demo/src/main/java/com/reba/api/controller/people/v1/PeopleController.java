@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.reba.api.dto.people.v1.PeopleStat;
 import com.reba.api.dto.people.v1.PeopleDto;
 import com.reba.api.dto.people.v1.PeopleRequest;
 import com.reba.api.service.people.v1.PeopleService;
@@ -25,48 +26,51 @@ import io.swagger.annotations.Api;
 @Validated
 @RestController
 @RequestMapping("v1/peoples")
-@Api(tags = {"people"})
+@Api(tags = { "people" })
 public class PeopleController {
-    
+
     private final PeopleService peopleService;
 
-    public PeopleController(PeopleService peopleService){
+    public PeopleController(PeopleService peopleService) {
         this.peopleService = peopleService;
     }
 
     @PostMapping
-    public ResponseEntity<PeopleDto> create(@Valid @RequestBody PeopleRequest peopleRequest){
-        return new ResponseEntity<PeopleDto>(peopleService.save(peopleRequest),HttpStatus.CREATED);
+    public ResponseEntity<PeopleDto> create(@Valid @RequestBody PeopleRequest peopleRequest) {
+        return new ResponseEntity<PeopleDto>(peopleService.save(peopleRequest), HttpStatus.CREATED);
     }
 
     @GetMapping
-	public ResponseEntity<List<PeopleDto>> findAll() {
+    public ResponseEntity<List<PeopleDto>> findAll() {
         List<PeopleDto> peopleList = peopleService.findAll();
         return new ResponseEntity<>(peopleList, HttpStatus.OK);
-	}
+    }
 
     @GetMapping("/{id}")
-	public ResponseEntity<PeopleDto> show(@PathVariable("id") Long id) {
-		return  new ResponseEntity<>(peopleService.findById(id),HttpStatus.OK); 
-	}
+    public ResponseEntity<PeopleDto> show(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(peopleService.findById(id), HttpStatus.OK);
+    }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id){
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         peopleService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}")
-	public ResponseEntity<PeopleDto> update(@PathVariable("id") Long id, @RequestBody PeopleRequest peopleRequest) {
-		return new ResponseEntity<>(peopleService.update(id,peopleRequest),HttpStatus.ACCEPTED);
-	}
-
-    @PostMapping("/{id1}/father/{id2}")
-    public ResponseEntity<String> createRelation(@PathVariable("id1") Long id1, @PathVariable("id2") Long id2){
-        return peopleService.createRelation(id1,id2);
+    public ResponseEntity<PeopleDto> update(@PathVariable("id") Long id, @RequestBody PeopleRequest peopleRequest) {
+        return new ResponseEntity<>(peopleService.update(id, peopleRequest), HttpStatus.ACCEPTED);
     }
 
+    @PostMapping("/{id1}/father/{id2}")
+    public ResponseEntity<String> createRelation(@PathVariable("id1") Long id1, @PathVariable("id2") Long id2) {
+        return peopleService.createRelation(id1, id2);
+    }
+
+    @GetMapping("/stats")
+    public ResponseEntity<List<PeopleStat>> getStats() {
+        List<PeopleStat> peopleStats = peopleService.getStatsFromPeople();
+        return new ResponseEntity<>(peopleStats, HttpStatus.OK);
+    }
 
 }
-
- 
